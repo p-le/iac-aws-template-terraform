@@ -2,8 +2,8 @@
 **AWS CLI**, **terraform** will be executed inside Docker Container.
 
 ## Step 1: Update Makefile
-TERRAFORM_VERSION: https://hub.docker.com/r/hashicorp/terraform/tags
-AWS_CLI_VERSION: https://hub.docker.com/r/amazon/aws-cli/tags
+* TERRAFORM_VERSION: https://hub.docker.com/r/hashicorp/terraform/tags
+* AWS_CLI_VERSION: https://hub.docker.com/r/amazon/aws-cli/tags
 
 ## Step 2: Build local AWSCLI image include Terraform
 ```
