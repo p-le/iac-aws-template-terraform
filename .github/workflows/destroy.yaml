@@ -1,0 +1,47 @@
+name: Destroy Infrastructure
+
+on: workflow_dispatch
+
+jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    environment: development
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./src
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Install the latest version of AWS CLI and setup Access Key and Secret Access Key
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-1
+
+      # Install the latest version of Terraform CLI
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          cli_config_credentials_token: ${{ secrets.TERRAFORM_CLOUD_API_TOKEN }}
+
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+
+      # Create input variables from Environment Secret
+      # NOTE: Avoid terraform.tfvars
+      - name: Setup Terraform variables
+        run: cp terraform.tfvars.example terraform.auto.tfvars
+
+      # Destroy deployed Infrastructure on AWS
+      - name: Terraform destroy
+        run: terraform destroy -auto-approve
