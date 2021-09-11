@@ -16,3 +16,12 @@ awscli:
 		-v $(BASE_PATH)/.aws:/root/.aws \
 		aws-cli:$(AWS_CLI_VERSION) \
 			$(ARG)
+
+.PHONY: terraform
+terraform:
+	@docker container run -it --rm \
+		-v $(BASE_PATH)/.aws:/root/.aws \
+        -v $(BASE_PATH)/src:/work \
+        --entrypoint terraform \
+		aws-cli:$(AWS_CLI_VERSION) \
+			$(ARG)
