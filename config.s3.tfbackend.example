@@ -1,3 +1,3 @@
-bucket = "infra-terraform-state-ap-northeast-1"
-key    = "demo"
-region = "ap-northeast-1"
+bucket = "<s3-bucket-name>"
+key    = "<prefix>"
+region = "<s3-bucket-region>"
