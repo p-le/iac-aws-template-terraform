@@ -3,7 +3,7 @@ name: Destroy Infrastructure
 on: workflow_dispatch
 
 jobs:
-  terraform:
+  destroy:
     name: Terraform
     runs-on: ubuntu-latest
     environment: development
