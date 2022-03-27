@@ -1,1 +1,2 @@
 region = "<target-region>"
+service = "<service-name>"
