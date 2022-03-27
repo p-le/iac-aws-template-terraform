@@ -32,6 +32,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# disable .env
+# Ingore files, folders
 .env
 config.s3.tfbackend
+.ssh
