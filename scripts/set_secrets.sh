@@ -23,3 +23,12 @@ if [ -f "infra/terraform.tfvars" ]; then
 else
     echo "Please create infra/terraform.tfvars file!"
 fi
+
+if [ -f "infra/config.s3.tfbackend" ]; then
+    echo "Set GitHub Action Secrets from config.s3.tfbackend"
+    base64 infra/config.s3.tfbackend > infra/config.s3.tfbackend.base64
+    gh secret set CONFIG_S3_TFBACKEND < infra/config.s3.tfbackend.base64
+    rm -rf infra/config.s3.tfbackend.base64
+else
+    echo "Please create infra/config.s3.tfbackend file!"
+fi

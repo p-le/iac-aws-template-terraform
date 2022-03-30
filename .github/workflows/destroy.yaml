@@ -37,9 +37,14 @@ jobs:
           tfenv install
           terraform --version
 
-      - name: Decode/Retrieve terraform.tfvars from Secrets
+      - name: Decode/Retrieve terraform.tfvars, config.s3.tfbackend from Secrets
         run: |
           echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 --decode > terraform.tfvars
+          echo "${{ secrets.CONFIG_S3_TFBACKEND }}" | base64 --decode > config.s3.tfbackend
+
+      - name: Initialize
+        run: |
+          terraform init
 
       # NOTE: Destroy infrastructure changes without approval.
       - name: Destroy
