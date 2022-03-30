@@ -1,0 +1,50 @@
+name: Terraform Plan & Validate
+
+# Default: Manually trigger. Please change to other events if needed
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Set Environment to execute Terraform"
+        required: true
+        type: choice
+        options: # Add more environment if needed
+          - demo
+jobs:
+  plan_validate:
+    name: Terraform
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: infra
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform
+        run: |
+          brew install tfenv
+          tfenv install
+          terraform --version
+
+      - name: Decode/Retrieve terraform.tfvars from Secrets
+        run: |
+          echo "${{ secrets.TERRAFORM_TFVARS }}" | base64 --decode > terraform.tfvars
+
+      - name: Validate Terraform Codes
+        run: |
+          terraform validate
+
+      - name: Prepare Terraform Plan
+        run: |
+          terraform plan

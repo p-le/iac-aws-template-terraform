@@ -1,2 +1,2 @@
-region = "<target-region>"
+region  = "<target-region>"
 service = "<service-name>"
