@@ -44,7 +44,7 @@ jobs:
 
       - name: Initialize
         run: |
-          terraform init
+          terraform init -backend-config=config.s3.tfbackend
 
       # NOTE: Apply infrastructure changes without approval.
       - name: Apply
